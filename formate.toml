@@ -4,6 +4,7 @@ collections-import-rewrite = 20
 reformat-generics = 40
 noqa-reformat = 60
 ellipsis-reformat = 70
+squish_stubs = 80
 
 [config]
 indent = "\t"
@@ -19,8 +20,7 @@ priority = 50
 yapf_style = ".style.yapf"
 
 [hooks.isort.kwargs]
-line_length = 115
-indent = "\"\t\t\""
+indent = "\t\t"
 multi_line_output = 8
 import_heading_stdlib = "stdlib"
 import_heading_thirdparty = "3rd party"
