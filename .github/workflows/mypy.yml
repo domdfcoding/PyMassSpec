@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: ['windows-2019', 'macos-latest', 'ubuntu-20.04']
       fail-fast: false
 
     steps:
@@ -26,12 +26,24 @@ jobs:
         with:
           python-version: "3.6"
 
-      - name: Install dependencies 🔧
+      - name: Install dependencies (Linux) 🔧
+        if: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
           python -VV
           python -m site
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install tox
+          python -m pip install --upgrade tox virtualenv
+          sudo add-apt-repository universe
+          sudo apt update
+          sudo apt install libhdf5-dev netcdf-bin libnetcdf-dev
+
+      - name: Install dependencies (Win/mac) 🔧
+        if: ${{ matrix.os != 'ubuntu-20.04' }}
+        run: |
+          python -VV
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade tox virtualenv
 
       - name: "Run mypy"
         run: "python -m tox -e mypy"
